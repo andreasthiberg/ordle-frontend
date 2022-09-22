@@ -6,7 +6,7 @@ export default function Board(props) {
 
     const [currentLetters,setCurrentLetters] = useState([]);
     const [currentRow, setCurrentRow] = useState(1);
-    const [correctWord, setCorrectWord] = useState(["L","A","S","E","R"]);
+    const [correctWord, setCorrectWord] = useState([]);
     const [colorArray, setColorArray] = useState(Array(25).fill("white"));
     const [gameOver, setGameOver] = useState(false);
     const [infoText, setInfoText] = useState("");
@@ -15,6 +15,7 @@ export default function Board(props) {
         let tempWordList = words.replace( /\n/g, " " ).split( " " );
         let randomWordNumber = Math.floor(Math.random() * tempWordList.length) - 1;
         setCorrectWord(tempWordList[randomWordNumber].toUpperCase())
+        console.log("Rätt ord: " + tempWordList[randomWordNumber].toUpperCase())
     },[])
 
     
@@ -132,7 +133,8 @@ export default function Board(props) {
         }
 
 
-        if(guess.toString() === correctWord.toString()){
+        if(guess.join("").toUpperCase() === correctWord.toString()){
+            console.log("WON")
             gameWon();
         } else if(currentRow === 5){
             setInfoText("Spelet är slut! Ordet var: " + correctWord);
@@ -141,8 +143,7 @@ export default function Board(props) {
         props.setGuessedLetters(guessedLettersColors);
         setColorArray(newColorArray);
         setCurrentRow(currentRow+1);
-        
-        console.log(guessedLettersColors);
+    
     }
 
     //Counts the occurences of a letter in an array. Helper function
@@ -158,7 +159,7 @@ export default function Board(props) {
 
 
     function gameWon(){
-        console.log("Du vann!");
+        setInfoText("Bra jobbat!")
         setGameOver(true);
     }
 
@@ -168,14 +169,22 @@ export default function Board(props) {
         setGameOver(false);
         setCurrentRow(1);
         props.setGuessedLetters({});
+        setInfoText("");
     }
 
 
     return (
+    <div className = "extended-board-container">
         <div className="board">
             {squares.map( (element, index) => (<Square currentLetters={currentLetters} colorArray={colorArray} squareIndex={index} key={index}/>))}
+            <div className="info-text">
             {infoText}
-            <button onClick={() => restartGame()}>Restart</button>
+            </div>
         </div>
+
+        <div>
+        <button className="new-game-button" onClick={() => restartGame()}>Nytt ord</button>
+        </div>
+    </div>
     )   
 }
