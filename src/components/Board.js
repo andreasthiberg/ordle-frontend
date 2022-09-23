@@ -30,6 +30,7 @@ export default function Board(props) {
         return function cleanup() {
           document.removeEventListener('keydown', handleKeyDown);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [currentLetters, currentRow]);
 
 
@@ -45,11 +46,11 @@ export default function Board(props) {
             enterLetter(input);
         } 
         
-        else if (input == "Backspace"){
+        else if (input === "Backspace"){
             backspace();
         }
 
-        else if (input == "Enter"){
+        else if (input === "Enter"){
             if(currentLetters.length === currentRow * 5){
                 makeGuess();
             }
@@ -127,7 +128,7 @@ export default function Board(props) {
                 guessedLettersColors[guess[i]] = "grey";
             }
 
-            if(newColorArray[((currentRow-1)*5) + i] == "white"){
+            if(newColorArray[((currentRow-1)*5) + i] === "white"){
                 newColorArray[((currentRow-1)*5) + i] = "grey";
             }
         }
@@ -150,7 +151,7 @@ export default function Board(props) {
     function countLetterInArray(letter,array){
         let counter = 0;
         for(let i = 0; i < array.length; i++){
-            if(array[i] == letter){
+            if(array[i] === letter){
                 counter++;
             }
         }
