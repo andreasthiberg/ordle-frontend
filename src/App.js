@@ -1,6 +1,5 @@
 import './App.css';
 import Game from "./components/Game";
-import {words} from "./assets/ord";
 
 function App() {
 
